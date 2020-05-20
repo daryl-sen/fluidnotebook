@@ -1,0 +1,86 @@
+{% extends 'with-sidebar.html' %}
+
+{% block mainContent %}
+
+  <h1>{{page.heading}}</h1>
+  {{page.content | safe }}
+
+  <div class="spacer"></div>
+  <p class="timestamp">Last Updated on: {{ page_last_update }}</p>
+  <section class="comparison-2" style="margin-top: 2rem; text-align: center;">
+    <div class="comp1 simple">
+
+
+      {% if prior_page_url != 0 %}
+        <a href="{{ url_for('pages.show', notebook_id = notebook.id, p = prior_page_url) }}">&larr; Previous Page</a>
+      {% else %}
+        Start of Document
+      {% endif %}
+    </div>
+    <div class="comp2 simple">
+      {% if next_page_url != 0 %}
+        <a href="{{ url_for('pages.show', notebook_id = notebook.id, p = next_page_url) }}">&rarr; Next Page</a>
+      {% else %}
+        End of Document
+      {% endif %}
+    </div>
+  </section>
+
+  <div id="toggles">
+    <a href="{{ url_for('users.device_settings') }}" target="_blank"><button class="toggleButton blueButton">&#9881;</button></a>
+    {% if session['keywords_pref'] and session['keywords_pref'] == "OFF" %}
+    {% else %}
+      <button class="toggleButton redButton" id="toggleKeywordsButton" onClick="hideKeywords();">K</button>
+    {% endif %}
+    {% if daynight == "DAY" %}
+      {% if session['daynight_pref'] == "NIGHT" %}
+      <form action="" method="post">
+        <button name="daynight_pref" class="toggleButton yellowButton" value="DAY">&#9728;</button>
+      </form>
+      {% else %}
+      <form action="" method="post">
+        <button name="daynight_pref" class="toggleButton darkButton" value="NIGHT">&#9728;</button>
+      </form>
+      {% endif %}
+    {% elif daynight == "NIGHT" %}
+      {% if session['daynight_pref'] == "DAY" %}
+      <form action="" method="post">
+        <button name="daynight_pref" class="toggleButton darkButton" value="NIGHT">&#9728;</button>
+      </form>
+      {% else %}
+      <form action="" method="post">
+        <button name="daynight_pref" class="toggleButton yellowButton" value="DAY">&#9728;</button>
+      </form>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+  <div class="sidebarBlock">
+    <h4>{{notebook.title}}</h4>
+    <a href="{{ url_for('pages.show', notebook_id = notebook.id)}}" class="naviLink">Return to Contents</a>
+  </div>
+
+  {% if current_user.is_authenticated and current_user.id == notebook.owner %}
+    <div class="sidebarBlock">
+      <h4>Page Options</h4>
+      <a href="{{ url_for('pages.edit_page', notebook_id = notebook.id, p = page_url) }}" class="naviLink">Edit Page</a>
+      <a href="{{ url_for('pages.insert_page', notebook_id = notebook.id, p = page_url, pos = 'before')}}" class="naviLink">Insert Page Before</a>
+      {% if page.next != 0 %}
+         <a href="{{ url_for('pages.insert_page', notebook_id = notebook.id, p = page_url, pos = 'after')}}" class="naviLink">Insert Page After</a>
+      {% endif %}
+      <a href="{{ url_for('pages.add_page', notebook_id=notebook.id)}}" class="naviLink">Add Page</a>
+      {% if page.prior != 0 %}
+        <a onClick="return confirm('Are you sure you want to delete this page?');" href="{{ url_for('pages.delete_page', notebook_id = notebook.id, p = page_url)}}" class="naviLink">Delete Page</a>
+      {% endif %}
+    </div>
+  {% else %}
+  <div class="dashedBlock">
+    <h4>Read-Only</h4>
+    <p>Owner: <b><a href="{{url_for('notebooks.profile', username = notebook.associated_user.username)}}">{{notebook.associated_user.username}}</a></b></p>
+    <h4>Descriptive Link</h4>
+    <span class="shareURL">www.fluidnotebook.com/notebooks/{{notebook.url}}</span>
+  </div>
+  {% endif %}
+{% endblock %}

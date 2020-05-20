@@ -1,0 +1,33 @@
+{% extends 'unconfined.html' %}
+
+{% block mainContent %}
+  <section class="confined-1000 linedBlock">
+    <h1>{{ active_desk.deskname }}</h1>
+    <p>Your desk contains all the current notebooks that you're working on. You can shift to a new desk if it's getting a little cluttered, but your old desk will be here waiting for you, exactly the way you left it!</p>
+    <p><b>Tip:</b> You can use different desks for different subjects, and notebooks can exist on more than one desk at a time (unlike in real life). It's like folders but with more visual!</p>
+    <p><a href="{{ url_for('desks.choose_desk')}}">Switch Desk</a> or <a href="{{ url_for('desks.manage_desk', selection=current_user.active_desk)}}">Manage This Desk</a></p>
+  </section>
+
+  <section class="centered">
+    <h2>Notebooks on {{ active_desk.deskname }}</h2>
+
+    <a href="{{ url_for('notebooks.add_notebook')}}"><div class="notebook_add">
+      <div class="add_button"></div>
+      <div class="add_text"></div>
+    </div></a>
+
+    {% for notebook in desk_notebooks %}
+      <a href="{{ url_for('pages.show', notebook_id = notebook.id)}}"><div class="notebook_thumbnail" style="background-image: url({{notebook.cover_img}});">
+        <div class="notebook_desc">
+          {{ notebook.title }}
+          <div class="notebook_author">by {{ notebook.associated_user.username }}</div>
+        </div>
+      </div></a>
+    {% endfor %}
+  </section>
+
+  <section class="centered">
+    <a href="{{ url_for('notebooks.show_all')}}">Show All Notebooks</a>
+  </section>
+
+{% endblock %}

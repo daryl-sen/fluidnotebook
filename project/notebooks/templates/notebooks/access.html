@@ -1,0 +1,13 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+  <h1>Access Code Required</h1>
+  <p>The owner of this notebook has chosen to make it private. You need an access code from the owner to access it. Access codes are case sensitive.</p>
+  <div class="linedBlock">
+    <form method="post">
+      {{ form.hidden_tag() }}
+      {{ form.access_code.label }}{{ form.access_code() }}
+      {{ form.submit(class_="redButton") }}
+    </form>
+  </div>
+{% endblock %}

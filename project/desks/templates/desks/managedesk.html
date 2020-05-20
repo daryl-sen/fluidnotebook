@@ -1,0 +1,35 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+  <h1>Manage Desk</h1>
+  <p>You can rename your desk, change the description, or remove notebooks here.</p>
+  <div class="linedBlock">
+    <h2>Edit Details</h2>
+    <form method="post">
+      {{ form.hidden_tag() }}
+      {{ form.deskname.label }}{{ form.deskname() }}
+      {{ form.desc.label }}{{ form.desc() }}
+      {{ form.submit(class_="redButton") }}
+    </form>
+    {% if request.headers.get('Referer') != None %}
+      <a href="{{ request.headers.get('Referer') }}" class="cancel_button">Cancel</a>
+    {% else %}
+      <a href="{{ url_for('desks.choose_desk') }}" class="cancel_button">Back to Manage Desks</a>
+    {% endif %}
+  </div>
+
+  <div class="linedBlock">
+    <h2>Delete Desk</h2>
+    <p>This action is irreversible! Deleting this desk will not delete the notebooks on the desk.</p>
+    <a onClick="return confirm('Are you sure you want to delete this desk? Your notebooks will remain safe.');" href="{{ url_for('desks.delete_desk', selection=desk_id) }}" class="naviLink">Yes, Delete This Desk</a>
+  </div>
+
+  <div class="linedBlock">
+    <h2>Remove Notebooks</h2>
+    <ul>
+      {% for notebook in desk_notebooks %}
+      <li><a href="{{url_for('notebooks.remove_notebook', notebook_id=notebook.id, desk_id=desk_id)}}">{{notebook.title}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

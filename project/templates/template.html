@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block templateAddon %}
+      <section id="custom-grid1">
+        <div id="grid-main">
+        </div>
+        <div id="grid-side1">
+          <h2>Custom-grid Sections</h2>
+          <p>These sections are wonderful for presenting information in a non-linear fashion. This is great for using as a splash section on a homepage.</p>
+        </div>
+        <div id="grid-side2">
+          <h2>Separate CSS Sheet</h2>
+          <p>Custom-grid sections have their own separate CSS file (custom-grids.css). This way, the custom sections of the CSS file is separate from the rest of the Unilay CSS.</p>
+        </div>
+        <div id="grid-side3">
+          <h2>Responsiveness Enabled</h2>
+          <p>Custom sections are not responsive by default, but responsiveness can be added in through the custom CSS file.</p>
+        </div>
+        <div id="grid-side4">
+          <h2>Infinite Customization</h2>
+          <p>This is one of the greatest features introduced in Unilay 4, helping projects distinguish themselves from one another.</p>
+        </div>
+      </section>
+
+
+      <section class="confined-1000">
+        <h1>Welcome to Unilay</h1>
+        <p>
+          Unilay is a universal web layout for projects at <a href="https://www.sensworks.ca/">sensworks.ca</a> and <a href="https://www.theonline.app/">theonline.app</a>. The aim of Unilay is to provide a uniform look across projects and to take away the hassle of producing a new design for every single app.
+        </p>
+        <p>
+          This is the 4th iteration of Unilay, with a new focus on flexibility, simplicity, and integration with content management systems and flask.
+        </p>
+        <h2>Confined Sections</h2>
+        <p>
+          Some sections are not ruled by a CSS grid, but simply confined to a maximum width. This one has a maximum width of 1000px. It is recommended to confine the width of elements so that the viewer does not have to constantly move their eyes from the left of the screen to the right side, especially on bigger screens.
+        </p>
+        <p class="left-border-decoration">
+          Quick Tip: Text with a big red border on the left can be achieved with the <code>class="left-border-decoration"</code>. On a separate note, the confined sections are achieved with the <code>class="confined-1000"</code>.
+        </p>
+
+        <h3>Auto-columned class</h3>
+        <div class="columns-3">
+          <p>
+            It might also be advisable to split up text-heavy blocks into columns. Any div with the columns-n class will automatically divide up its content into n columns. This makes text easier to read especially on bigger screens.
+            When used in mobile view, column-n class elements will display everything in a single column. Try not to mix up text with divs and images in an element with the columns-n class, as that makes equal divisions difficult. Any divs inside a column-n class element will not break, but retains its grouping as a block.
+          </p>
+          <p>
+            The auto-columned class is <code>class="columns-3"</code>
+          </p>
+        </div>
+        <h3>Images</h3>
+        <img src="images/columns.jpg" alt="">
+        <p>
+          All images, regardless of size, will not exceed its parent container. <code>class="full-width"</code> can also be added to images so even smaller images will take up the entire space. This class gives images the "width: 100%;" property. Images are also given 2rems of margin below them.
+        </p>
+        <p class="left-border-decoration">
+          A quick sidenote: All images used in Unilay are NOT licensed for redistribution. Explicit permission from the image authors are required.
+        </p>
+      </section>
+
+
+      <section class="confined-1000">
+        <h2>Sections with spaces reserved for sidebars</h2>
+        <div class="with-sidebar">
+          <div class="section-main">
+            <p>Some sections benefit from having a sidebar attached to it. A sidebar can contain navigation links, relevant instructions or help messages, contain notifications, etc.</p>
+            <p>This is achived by adding <code>class="with-sidebar"</code> to the containing block-level element, then adding <code>class="section-main"</code> to the main DIV. An <code>aside</code> element should be used to contain the sidebar.</p>
+            <h1>Headings (h1)</h1>
+            <p>
+              I almost forgot, here's a quick run-down of all the headings. A H1 is usually not near the middle of the page, but this is for demonstration only, so we're good, right?
+            </p>
+            <p>
+              While we're here, let's also look at rich-text formatting. Here's some
+              <ul>
+                <li><strong>bold text</strong></li>
+                <li><i>italics</i></li>
+                <li><u>underlined text</u></li>
+                <li><a href="#">A link</a></li>
+                <li>... All inside an unordered list.</li>
+              </ul>
+            </p>
+            <h2>Heading 2</h2>
+            <p>
+              The most commonly-used heading. You've seen it many times so far.
+            </p>
+            <h3>Heading 3</h3>
+            <h4>Heading 4</h4>
+            <h5>Heading 5</h5>
+          </div>
+          <aside class="">
+            <div class="sidebarBlock">
+              <h3>Sidebar</h3>
+              <a href="#" class="naviLink">Navigation Link</a>
+              <a href="#" class="naviLink">Navigation Link</a>
+              <a href="#" class="naviLink">Navigation Link</a>
+              <p>
+                Navigation links in the sidebar should use <code>class="naviLink"</code>.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="confined-1000">
+        <h2>Comparison Blocks</h2>
+        <p>
+          Comparisons are very common when trying to write persuasively. There are comparison-3 blocks and comparison-2 blocks. They're both containers for DIV blocks, displayed using a CSS grid.
+        </p>
+        <div class="comparison-2">
+          <div class="comp1 simple">
+            <h3>Comparison Object 1</h3>
+          </div>
+          <div class="comp2 simple">
+            <h3>Comparison Object 2</h3>
+          </div>
+        </div>
+        <div class="comparison-3">
+          <div class="comp1 plain">
+            <h3>Comparison Object 1</h3>
+          </div>
+          <div class="comp2 simple">
+            <h3>Comparison Object 2</h3>
+          </div>
+          <div class="comp3 colored">
+            <h3>Comparison Object 3</h3>
+          </div>
+        </div>
+      </section>
+      <section class="confined-1000">
+        <h2>Forms</h2>
+        <form>
+          <label for="input1">This is a label</label>
+          <input type="text" id="input1" name="input1" value="Prefilled Form">
+          <input type="number" name="input2" placeholder="Placeholder">
+          <select>
+            <option>Option 1</option>
+            <option>Option 2</option>
+          </select>
+          <input type="checkbox" id="thecheckbox" value="Check this box">
+          <label for="thecheckbox">Check this box</label>
+
+          <p>
+            <input type="radio" name="radio1" id="radiooption1">
+            <label for="radiooption1">I heard that Radio buttons are all the rage. </label><br>
+            <input type="radio" name="radio1" id="radiooption2"> <label for="radiooption2">I don't like Radio buttons. </label>
+          </p>
+          <textarea name="name" rows="8" cols="80"></textarea>
+          <input type="submit" name="input3" value="Submit" class="blueButton">
+          <input type="submit" name="input3" value="Submit" class="redButton">
+          <button type="button" name="button">Button</button>
+        </form>
+
+        <div class="highlightBlock">
+          <h3>Quill Rich-Text Editor</h3>
+          <p>And of course, the highlight is integration of Quill into forms and the flask framework.</p>
+          <p class="left-border-decoration">On form submission, javascript adds the innerHTML of the quillEditor to a hidden form field.</p>
+          <div id="quillEditor"></div>
+        </div>
+      </section>
+
+      <section class="confined-1000" id="contact" style="text-align: center;">
+        <img src="images/logo-big.png" style="max-width: 50%;" alt="">
+        <h2>Contact Information</h2>
+        <p>If you'd like to use Unilay in one of your projects, please contact <em>daryl@sensworks.ca</em></p>
+      </section>
+      <section class="confined-1000" id="credits" style="text-align: center;">
+        <h2>Credits</h2>
+        <div>
+          <p>HTML and CSS by <a href="https://www.sensworks.ca/" target="_blank">Daryl (Sen)</a></p>
+          <p>Rich-text Editor by <a href="https://www.quilljs.com/" target="_blank">Quill</a></p>
+          <p>Images used are licensed by <a href="https://www.freepik.com/" target="_blank">freepik.com</a>, under a premium license. Not for redistribution.</p>
+        </div>
+      </section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+<h1>{{ username }}'s profile</h1>
+<div class="linedBlock">
+  <img src="{{current_user.pic}}" style="display: block; margin: auto;">
+  <h2>Biography</h2>
+  {% if target_user.bio != "" %}
+  <p>{{ target_user.bio }}</p>
+  {% else %}
+  <p>None.</p>
+  {% endif %}
+</div>
+<div class="centered">
+  <h2>Public Notebooks</h2>
+  {% for notebook in notebooks %}
+  <a href="{{ url_for('pages.show', notebook_id = notebook.id)}}"><div class="notebook_thumbnail" style="background-image: url({{notebook.cover_img}});">
+    <div class="notebook_desc">
+      {{ notebook.title }}
+      <div class="notebook_author">by {{ notebook.associated_user.username }}</div>
+    </div>
+  </div></a>
+  {% endfor %}
+
+  {% if private_notebooks != 0 %}
+  <h2>Private Notebooks</h2>
+  <p>You can see this list because you're currented logged in as this user.</p>
+    {% for notebook in private_notebooks %}
+    <a href="{{ url_for('pages.show', notebook_id = notebook.id)}}"><div class="notebook_thumbnail" style="background-image: url({{notebook.cover_img}});">
+      <div class="notebook_desc">
+        {{ notebook.title }}
+        <div class="notebook_author">by {{ notebook.associated_user.username }}</div>
+      </div>
+    </div></a>
+    {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}

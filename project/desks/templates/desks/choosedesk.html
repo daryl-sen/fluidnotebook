@@ -1,0 +1,33 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+  <h1>Choose a Desk</h1>
+  <a href="{{ url_for('desks.index') }}" class="cancel_button">Return to Active Desk</a>
+  {% for desk in all_desks %}
+    <div class="linedBlock">
+      <h2>{{ desk.deskname }}</h2>
+      <p>{{ desk.desc }}</p>
+      {% if desk.id == current_user.active_desk %}
+        Current Active Desk
+        {% else %}
+        <a href="{{ url_for('desks.activate_desk', selection=desk.id) }}">Activate</a>
+      {% endif %}
+      | <a href="{{ url_for('desks.manage_desk', selection=desk.id) }}">Manage</a> | <a onClick="return confirm('Are you sure you want to delete this desk? Your notebooks will remain safe.');" href="{{ url_for('desks.delete_desk', selection=desk.id) }}">Delete</a>
+    </div>
+  {% endfor %}
+  <div class="linedBlock">
+    <h2>Notebook Shelf</h2>
+    <p>Not a desk, but you can see all your notebooks here.</p>
+    <a href="{{ url_for('notebooks.show_all') }}">See All Notebooks</a>
+  </div>
+
+  <h2>Add New Desk</h2>
+  <div class="linedBlock">
+    <form method="post">
+      {{ form.hidden_tag() }}
+      {{ form.deskname.label }}{{ form.deskname() }}
+      {{ form.desc.label }}{{ form.desc() }}
+      {{ form.submit(class_="redButton") }}
+    </form>
+  </div>
+{% endblock %}

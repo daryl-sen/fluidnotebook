@@ -1,0 +1,22 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+  <h1>Editing Notebook Information</h1>
+  <div class="linedBlock">
+    <h2>{{notebook.title}}</h2>
+    <form method="post">
+      {{ form.hidden_tag() }}
+      {{ form.title.label() }}{{ form.title() }}
+      {{ form.url.label() }}{{ form.url() }}
+      {{ form.desc.label() }}{{ form.desc(placeholder="Optional") }}
+      {{ form.access_code.label }}{{ form.access_code(placeholder="Optional") }}
+      {{ form.cover_img.label }}{{ form.cover_img(placeholder="Optional, using default") }}
+      {{ form.submit(class_="redButton") }}
+    </form>
+    {% if request.headers.get('Referer') != None %}
+      <a href="{{ request.headers.get('Referer') }}" class="cancel_button">Cancel</a>
+    {% else %}
+      <a href="{{ url_for('pages.show', notebook_id = notebook.id) }}" class="cancel_button">Back to Overview</a>
+    {% endif %}
+  </div>
+{% endblock%}

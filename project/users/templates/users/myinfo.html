@@ -1,0 +1,20 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+<h1>Personal Details</h1>
+<p>Fluid Notebook aims to store <b>as little personal information as possible</b>. Even big companies with well-protected databases will have breaches, so anything you put online is NOT SAFE.</p>
+<p>Therefore, Fluid Notebook DOES NOT store ANY payment information or transaction details. All payments go through verified external vendors.</p>
+<p>To protect yourself as a user, DO NOT post any personal details, or personally-identifiable images.</p>
+<div class="linedBlock">
+  <form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.bio.label() }}{{ form.bio() }}
+    {{ form.email.label() }}{{ form.email() }}
+    {{ form.pic.label() }}{{ form.pic() }}
+    {{ form.submit(class_="redButton") }}
+  </form>
+  <a href="{{ url_for('users.settings') }}" class="cancel_button">Back to Settings</a>
+  <p>Your bio and profile picture can be seen on <a href="{{ url_for('notebooks.profile', username = current_user.username)}}">your profile page</a>.</p>
+  <p>Your email address is strictly for password recovery and IMPORTANT notices only. Fluid Notebook will never send you spam or promotional emails, or share your email address with a third party.</p>
+</div>
+{% endblock %}

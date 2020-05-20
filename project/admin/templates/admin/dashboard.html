@@ -1,0 +1,100 @@
+{% extends 'with-sidebar.html' %}
+
+{% block mainContent %}
+  <h1>Admin's Dashboard</h1>
+
+  <h2>Summary</h2>
+  <div class="highlightBlock">
+    <p>Here's some quick stats to see how Fluid Notebook is doing.</p>
+    <div class="comparison-3 centered">
+      <div class="comp-1 simple">
+        <h3>Users</h3>
+        <div class="bigNumber">
+          {{ users_count }}
+        </div>
+      </div>
+      <div class="comp-2 simple">
+        <h3>Notebooks</h3>
+        <div class="bigNumber">
+          {{ notebooks_count }}
+        </div>
+      </div>
+      <div class="comp-3 simple">
+        <h3>Pages</h3>
+        <div class="bigNumber">
+          {{ pages_count }}
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-2">
+      <div class="comp-1 simple">
+        <h4>Newest Users</h4>
+        {% for user in newest_users %}
+          <a href="{{ url_for('notebooks.profile', username = user.username) }}" class="naviLink" target="_blank">{{ user.username }}</a>
+        {% endfor %}
+      </div>
+      <div class="comp-2 simple">
+        <h4>Newest Notebooks</h4>
+        {% for notebook in newest_notebooks %}
+          <a href="{{ url_for('pages.show', notebook_id = notebook.id) }}" class="naviLink" target="_blank">{{ notebook.title }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+
+  <h2>Reports</h2>
+  {% if all_reports != 0 %}
+    {% for report in all_reports %}
+      <div class="linedBlock">
+        <h3>{{ report.type }} ({{ report.date }})</h3>
+        <h4>{{ report.url }}</h4>
+        <p>{{ report.content }}</p>
+        <p>Reported by <a target="_blank" href="{{ url_for('notebooks.profile', username=report.user) }}">{{ report.user }}</a></p>
+        <a class="naviLink" href="{{ url_for('admin.delete_row', model_name = 'reports', id = report.id)}}">Resolve</a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="linedBlock">
+      No reports to show
+    </div>
+  {% endif %}
+{% endblock %}
+
+
+{% block sidebar %}
+  <h2>Commands</h2>
+    <div class="sidebarBlock">
+      <a class="naviLink" href="{{ url_for('admin.prune', table='pages')}}">Clear Loose Pages</a>
+      <a class="naviLink" href="{{ url_for('admin.prune', table='preferences')}}">Clear Loose Preferences</a>
+      <a class="naviLink" href="{{ url_for('admin.execute')}}">Execute Preset Command</a>
+    </div>
+
+  <h2>Check Tables</h2>
+  <div class="linedBlock">
+    <h3>Users Table</h3>
+    <!--<a href="{{ url_for('admin.check', table='users', filter='limit100') }}" class="naviLink">Latest 100</a>-->
+    <a href="{{ url_for('admin.check', table='users') }}" class="naviLink">Check All</a>
+
+    <h3>Desks Table</h3>
+    <!--<a href="{{ url_for('admin.check', table='desks', filter='limit100') }}" class="naviLink">Latest 100</a>-->
+    <a href="{{ url_for('admin.check', table='desks') }}" class="naviLink">Check All</a>
+
+    <h3>Notebooks Table</h3>
+    <!--<a href="{{ url_for('admin.check', table='notebooks', filter='limit100') }}" class="naviLink">Latest 100</a>-->
+    <a href="{{ url_for('admin.check', table='notebooks') }}" class="naviLink">Check All</a>
+
+    <h3>Pages Table</h3>
+    <!--<a href="{{ url_for('admin.check', table='pages', filter='limit100') }}" class="naviLink">Latest 100</a>-->
+    <a href="{{ url_for('admin.check', table='pages') }}" class="naviLink">Check All</a>
+
+    <h3>Preferences Table</h3>
+    <!--<a href="{{ url_for('admin.check', table='preferences', filter='limit100') }}" class="naviLink">Latest 100</a>-->
+    <a href="{{ url_for('admin.check', table='preferences') }}" class="naviLink">Check All</a>
+
+    <h3>Notebooks-Desks Table</h3>
+    <!--<a href="{{ url_for('admin.check', table='relational', filter='limit100') }}" class="naviLink">Latest 100</a>-->
+    <a href="{{ url_for('admin.check', table='relational') }}" class="naviLink">Check All</a>
+  </div>
+{% endblock %}

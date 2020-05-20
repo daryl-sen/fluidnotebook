@@ -1,0 +1,46 @@
+{% extends 'with-sidebar.html' %}
+
+{% block mainContent %}
+  <h1>{{notebook.title}}</h1>
+  <img src="{{notebook.cover_img}}" class="full-width" alt="Notebook cover">
+  <p>By {{notebook.owner}}, created on {{notebook.date}}</p>
+  <p>
+    {% if notebook.desc != "" %}
+      <h2>Description</h2>
+      {{notebook.desc}}
+    {% endif %}
+  </p>
+  <p>Last updated on {{notebook.last_update}}, expires on {{notebook.expiry}}</p>
+  <hr>
+  <h2>Statistics</h2>
+
+{% endblock %}
+
+{% block sidebar %}
+  <div class="sidebarBlock">
+    <h4>Explore</h4>
+    <a href="/notebooks/{{notebook.id}}/view" class="naviLink">Open Notebook</a>
+    <!-- <a href="/" class="naviLink">Add to Favorites</a> -->
+  </div>
+  {% if current_user.username == notebook.owner %}
+    <div class="sidebarBlock">
+      <h4>Notebook Options</h4>
+      <a href="/notebooks/{{notebook.id}}/edit" class="naviLink">Edit Notebook Info</a>
+      <a href="/notebooks/{{notebook.id}}/add" class="naviLink">Add a Page</a>
+      <!-- <a href="#" class="naviLink">Rearrange Pages</a>
+      <a href="#" class="naviLink">Delete Pages</a> -->
+    </div>
+    <div class="sidebarBlock">
+      <h5>Delete Notebook</h5>
+      <a onClick="return confirm('Are you sure you want to delete this notebook? This action is irreversible!');" href="/notebooks/{{notebook.id}}/delete" class="naviLink">Delete {{notebook.title}}</a> (irreversible)
+    </div>
+  {% else %}
+    <div class="sidebarBlock">
+      <h4>Read-Only</h4>
+      <p>
+        This notebook is read-only since you're not the owner.
+      </p>
+      <p>If this notebook contains content that you find inappropriate or is against the rules, please <a href="#">report it</a>.</p>
+    </div>
+  {% endif %}
+{% endblock %}

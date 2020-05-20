@@ -1,0 +1,28 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+<h1>Log In</h1>
+<div class="highlightBlock">
+  <form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.username.label }}{{ form.username() }}
+    {{ form.password.label }}{{ form.password() }}
+    {{ form.submit(class_="redButton") }}
+  </form>
+  <div class="comparison-3 centered">
+    <div class="comp1 plain">
+      <h4>Forgot Password?</h4>
+      <a href="{{url_for('users.forgot_password')}}" class="naviLink">Reset Password</a>
+    </div>
+    <div class="comp2 plain">
+      <h4>Forgot Username?</h4>
+      <a href="{{url_for('users.email_login')}}" class="naviLink">Login with Email</a>
+    </div>
+    <div class="comp3 plain">
+      <h4>No Account?</h4>
+      <a href="{{url_for('users.register')}}" class="naviLink">Sign Up</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

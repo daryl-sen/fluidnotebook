@@ -1,0 +1,28 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+  <h1>Adding Notebook to Active Desk</h1>
+  <p>You can either create a new notebook to put on your desk, or select from a list of existing notebooks you created or favorited (scroll down!).</p>
+  <div class="linedBlock">
+    <h2>Create New Notebook</h2>
+    <form method="post">
+      {{ form.hidden_tag() }}
+      {{ form.title.label() }}{{ form.title() }}
+      {{ form.url.label() }}{{ form.url(placeholder="fluidnotebook.com/u/" + current_user.username + "/<URL>") }}
+      {{ form.desc.label() }}{{ form.desc(placeholder="Optional") }}
+      {{ form.access_code.label }}{{ form.access_code(placeholder="Optional") }}
+      {{ form.cover_img.label }}{{ form.cover_img(placeholder="Optional, using default") }}
+      {{ form.submit(class_="redButton") }}
+    </form>
+    <a href="{{ url_for('desks.index') }}" class="cancel_button">Back to Active Desk</a>
+  </div>
+  <div class="linedBlock">
+    <h2>Select Existing Notebook</h2>
+    <p>Sorted by recency.</p>
+    <div class="columns-3">
+      {% for notebook in recent_notebooks %}
+        <a href="{{ url_for('notebooks.add_notebook', notebook_id=notebook.id)}}" class="naviLink">{{notebook.title}}</a>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock%}

@@ -1,0 +1,54 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+  <h1>All My Notebooks</h1>
+  <p>The following is a list of all the notebooks you authored. <a onClick="toggleElement('searchbox')">Toggle search box</a>.</p>
+
+  <form id="searchbox" style="display: none;" method="get" action="{{ url_for('notebooks.show_all') }}" class="highlightBlock">
+    <h2>Search Notebooks</h2>
+    <input type="text" name="query" value="{% if request.args.get('query')%}{{ request.args.get('query')}}{% endif %}" list="recent_50" placeholder="Leave blank to show all notebooks">
+    <datalist id="recent_50">
+      {% if all_notebooks != 0 %}
+        {% for notebook in all_notebooks %}
+        <option value="{{ notebook.title }}" />
+        {% endfor %}
+      {% endif %}
+    </datalist>
+    <label for="type">Search in ...</label>
+    <select class="" name="type">
+      {% if request.args.get('type') %}
+        <option value="{{ request.args.get('type') }}">Current: {{ request.args.get('type') }}</option>
+      {% endif %}
+      <option value="title">Notebook Title</option>
+      <option value="desc">Notebook Description</option>
+      <!-- <option value="tags">Notebook Tags</option> -->
+    </select>
+    <label for="sort">Sort Results</label>
+    <select name="sort">
+      {% if request.args.get('sort') %}
+        <option value="{{ request.args.get('sort') }}">Current: {{ request.args.get('sort') }}</option>
+      {% endif %}
+      <option value="recency_new">Recency (newest first)</option>
+      <option value="recency_old">Recency (oldest first)</option>
+      <option value="alphabetical">alphabetical</option>
+    </select>
+    <input type="submit" value="Search" class="blueButton">
+    <a class="cancel_button" href="{{ url_for('notebooks.show_all')}}">Reset</a>
+  </form>
+
+
+  <div class="centered">
+    {% if search_results != 0 %}
+      {% for notebook in search_results %}
+      <a href="{{ url_for('pages.show', notebook_id = notebook.id)}}"><div class="notebook_thumbnail" style="background-image: url({{notebook.cover_img}});">
+        <div class="notebook_desc">
+          {% if notebook.access_code != "" %}&#128274; {% endif %}{{ notebook.title }}
+          <div class="notebook_author">by {{ notebook.associated_user.username }}</div>
+        </div>
+      </div></a>
+      {% endfor %}
+    {% else %}
+    <p>Sorry, none of your notebooks match the search criteria.</p>
+    {% endif %}
+  </div>
+{% endblock %}

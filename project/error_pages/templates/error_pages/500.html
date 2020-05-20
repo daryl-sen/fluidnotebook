@@ -1,0 +1,18 @@
+{% extends 'with-sidebar.html' %}
+
+
+
+{% block mainContent %}
+<h1>Unexpected Error</h1>
+<h2>This one's on me..</h2>
+<p>Sorry but Fluid Notebook has encountered an error it doesn't quite know how to resolve. You might be able to recover your data by pressing the back button. Please help me out by <a href="/users/report">reporting this error!</a></p>
+{% endblock %}
+
+{% block sidebar %}
+<div class="sidebarBlock">
+  <h3>Navigation</h3>
+  <a href="/" class="naviLink">Homepage</a>
+  <a href="/info" class="naviLink">Info</a>
+  <a href="/desks" class="naviLink">My Desk</a>
+</div>
+{% endblock %}

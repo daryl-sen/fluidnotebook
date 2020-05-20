@@ -1,0 +1,169 @@
+body {
+  background-color: #191919;
+  color: #dddddd;
+}
+
+header {
+  background-color: #34435E;
+}
+
+p {
+  color: #dddddd;
+}
+
+h1 {
+  color: #ffffff;
+}
+h2, h3, h4, h5 {
+  color: #cccccc;
+}
+
+#webTitle {
+  color: #fff;
+}
+
+#mobileNavContainer {
+  background-color: #191919;
+  border: 1px solid #393939;
+}
+
+#floatingMenuButton {
+  background-color: #242f42;
+  color: #fff;
+}
+
+.redButton {
+  background-color: #800000 !important;
+  border: #ff3939;
+  color: #fff;
+}
+
+.blueButton {
+  background-color: #358bdc !important;
+  color: #fff;
+}
+
+.darkButton {
+  background-color: #222222 !important;
+  color: #fff;
+}
+.yellowButton {
+  background-color: #F4EBD9 !important;
+  color: #000;
+}
+
+a, a:visited {
+  color: #358bdc;
+}
+a:hover {
+  color: #ff3939;
+}
+
+.naviLink, .naviLink:visited {
+  color: #358bdc;
+}
+.naviLink:hover {
+  color: #ff3939;
+}
+
+.colored {
+  background-color: #34435E;
+  color: #fff;
+}
+
+.sidebarBlock {
+  background-color: #262626;
+}
+
+.notification {
+  background-color: #393939;
+  color: #fff;
+}
+
+.linedBlock {
+  border: 1px solid #393939;
+}
+
+.highlightBlock {
+  border: 1px solid #393939;
+}
+
+pre {
+  background-color: #393939;
+  color: #cccccc;
+}
+
+code {
+  background-color: #393939;
+}
+
+footer {
+  background-color: inherit;
+  border-top: 1px solid #393939;
+}
+#footnotes {
+  color: #888;
+}
+
+.paginationBlock a, .paginationBlock b {
+  display: inline-block;
+  background-color: #e6e6e6;
+  color: #000;
+}
+
+.warning {
+  background-color: #393939;
+}
+
+
+.notebook_desc {
+  background-color: #34435E;
+  color: #fff;
+}
+
+.notebook_thumbnail {
+  border: 1px solid #e6e6e6;
+}
+
+.notebook_add {
+  border: 1px dashed #34435E;
+}
+
+.add_button {
+  color: #34435E;
+}
+
+.add_text {
+  color: #34435E;
+}
+
+input[type='text'],
+input[type='number'],
+input[type='submit'],
+input[type='password'],
+select,
+textarea {
+  background-color: #393939;
+  color: #fff;
+}
+
+
+#grid-main {
+  background-image: url('https://res.cloudinary.com/sensworks/image/upload/v1589211680/splash-dark_ucvodp.png');
+}
+
+#grid-side1 {
+  background-color: #1C5D99;
+}
+
+#grid-side2 {
+  background-color: #34435E;
+}
+
+#grid-side3 {
+  background-color: #222222;
+}
+
+#grid-side4 {
+  background-color: #4E4B5C;
+}

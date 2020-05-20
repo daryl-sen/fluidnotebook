@@ -1,0 +1,45 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+<h1>Account Preferences</h1>
+<p>
+  You can customize Fluid Notebooks to make it even better for you! When you're done, please click on "Apply Changes" at the bottom of the page to save your settings!
+</p>
+{% if session['daynight_pref'] or session['font_size_pref'] or session['keywords_pref'] %}
+  <div class="notification">
+    <b>NOTE:</b> You have device-specific settings turned on for this device, which overrides your account preferences. You can <a href="{{ url_for('users.device_settings') }}">reset those settings here</a>.
+  </div>
+{% endif %}
+<form method="post">
+{{ form.hidden_tag() }}
+  <div class="linedBlock">
+    <h4>Night Mode Settings</h4>
+    <p>Customize night mode to reduce eye strain when using Fluid Notebook in dimly-lit conditions.</p>
+    {{ form.timezone.label }}{{ form.timezone() }}
+    {{ form.night_time_on.label }}{{ form.night_time_on() }}
+    <p><b>ONSET TIME:</b> Night mode will turn on automatically at the ONSET time. By default, this is set at 21 (9 PM).</p>
+    {{ form.night_time_off.label }}{{ form.night_time_off() }}
+    <p><b>OFF TIME:</b> Night mode will turn off automatically at the OFF time. Be default, this is set at 7 (7 AM).</p>
+    {{ form.night_mode_type.label }}<br/>
+    {% for subfield in form.night_mode_type %}
+      {{ subfield }}
+      {{ subfield.label }}<br />
+    {% endfor %}
+    <p>If "No nightmode" is selected, you won't be able to turn on Night Mode even by clicking on the toggle.</p>
+  </div>
+  <div class="linedBlock">
+    <h4>Notebook Display</h4>
+    {{ form.font_size.label }}{{ form.font_size() }}
+  </div>
+  <div class="linedBlock">
+    <h4>Addon Editor Functions</h4>
+    <p>Fluid Notebook aims to provide a clean user interface. If you need more editing features, you can enable the following addons.</p>
+    <b>{{ form.coding_addon() }}{{ form.coding_addon.label }}</b> - allows the use of code snippet and code block highlighting<br/>
+    <b>{{ form.hyperlinks_addon() }}{{ form.hyperlinks_addon.label }}</b> - allows adding hyperlinks<br/>
+    <!-- <b>{{ form.colors_addon() }}{{ form.colors_addon.label }}</b> - allows changing text color and background<br/> -->
+  </div>
+    {{ form.submit(class_="redButton") }}
+</form>
+<a href="{{ url_for('users.settings') }}" class="cancel_button">Back to Settings</a>
+
+{% endblock %}

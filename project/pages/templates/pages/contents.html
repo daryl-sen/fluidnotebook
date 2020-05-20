@@ -1,0 +1,101 @@
+{% extends 'with-sidebar.html' %}
+
+{% block mainContent %}
+  <h1>{{ notebook.title}}</h1>
+  <p class="timestamp">Created on {{ creation_date }}</p>
+
+  <img src="{{notebook.cover_img}}" alt="" class="notebookCover">
+
+  <p>{{ notebook.desc }}</p>
+  <div class="spacer"></div>
+    <h2>Notebook Contents</h2>
+  {% if all_pages != 0 %}
+    {% for page in all_pages %}
+      {% if page.heading[0:8] == "DIVIDER:" %}
+        <div class="divider">{{ page.heading[8:] }} {% if current_user.is_authenticated and current_user.id == notebook.owner %}(<a href="{{ url_for('pages.edit_page', notebook_id = notebook.id, p = page.url) }}">Edit</a> / <a onClick="return confirm('This divider page will be deleted, are you sure?');" href="{{ url_for('pages.delete_page', notebook_id = notebook.id, p = page.url)}}">Delete</a>){% endif %}</div>
+      {% else %}
+        <a href="{{ url_for('pages.show', notebook_id = notebook.id, p=page.url)}}" class="naviLink">{{page.heading}}</a>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <p>There are no pages in this notebook. {% if current_user.id == notebook.owner %}Please <a href="{{ url_for('pages.add_page', notebook_id = notebook.id)}}">add a new page</a>!{% endif %}</p>
+  {% endif %}
+
+  <div id="toggles">
+    <a href="{{ url_for('users.device_settings') }}" target="_blank"><button class="toggleButton blueButton">&#9881;</button></a>
+    {% if session['keywords_pref'] and session['keywords_pref'] == "OFF" %}
+    {% else %}
+      <button class="toggleButton redButton" id="toggleKeywordsButton" onClick="hideKeywords();">K</button>
+    {% endif %}
+    {% if daynight == "DAY" %}
+      {% if session['daynight_pref'] == "NIGHT" %}
+      <form action="" method="post">
+        <button name="daynight_pref" class="toggleButton yellowButton" value="DAY">&#9728;</button>
+      </form>
+      {% else %}
+      <form action="" method="post">
+        <button name="daynight_pref" class="toggleButton darkButton" value="NIGHT">&#9728;</button>
+      </form>
+      {% endif %}
+    {% elif daynight == "NIGHT" %}
+      {% if session['daynight_pref'] == "DAY" %}
+      <form action="" method="post">
+        <button name="daynight_pref" class="toggleButton darkButton" value="NIGHT">&#9728;</button>
+      </form>
+      {% else %}
+      <form action="" method="post">
+        <button name="daynight_pref" class="toggleButton yellowButton" value="DAY">&#9728;</button>
+      </form>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endblock %}
+
+
+
+
+
+
+{% block sidebar %}
+  <div class="sidebarBlock">
+    <h4>Navigation</h4>
+    {% if page.next != 0 %}
+      <a href="{{ url_for('pages.show', notebook_id = notebook.id, p = next_page_url) }}" class="naviLink">Go to Page 1</a>
+    {% endif %}
+
+
+
+
+
+    {% if added_to_desk == False %}
+      <a href="{{ url_for('notebooks.add_notebook', notebook_id = notebook.id)}}" class="naviLink">Add to My Desk</a>
+    {% elif added_to_desk == True %}
+      <a href="{{ url_for('notebooks.remove_notebook', notebook_id = notebook.id, desk_id = current_user.active_desk, backref=notebook.id) }}" class="naviLink">Remove from Desk</a>
+    {% endif %}
+
+
+
+
+    <a href="{{ url_for('users.report')}}" class="naviLink">Report This Notebook</a>
+  </div>
+  {% if current_user.id == notebook.owner %}
+    <div class="sidebarBlock">
+      <h4>Notebook Options</h4>
+      <a href="{{ url_for('notebooks.edit_notebook', notebook_url = notebook.url)}}" class="naviLink">Edit Notebook Info</a>
+      <a onClick = "return alert('This feature is coming soon! In the meantime, you can find the option to insert, edit, or delete pages on the page itself.')" class="naviLink">Manage Pages</a>
+      <a href="{{ url_for('pages.add_page', notebook_id = notebook.id)}}" class="naviLink">Add a New Page</a>
+      <a onClick="return confirm('Are you sure you want to delete this notebook? This action is IRREVERSIBLE!');" href="{{ url_for('notebooks.delete_notebook', notebook_id = notebook.id)}}" class="naviLink">DELETE</a>
+    </div>
+    <div class="dashedBlock">
+      <h4>{% if notebook.access_code != "" %}&#128274; {% endif %}Descriptive Link</h4>
+      <span class="shareURL">www.fluidnotebook.com/u/{{notebook.associated_user.username}}/{{notebook.url}}</span>
+    </div>
+  {% else %}
+    <div class="dashedBlock">
+      <h4>Read-Only</h4>
+      <p>Owner: <b><a href="{{url_for('notebooks.profile', username = notebook.associated_user.username)}}">{{notebook.associated_user.username}}</a></b></p>
+      <h4>{% if notebook.access_code != "" %}&#128274; {% endif %}Share Link</h4>
+      <span class="shareURL">www.fluidnotebook.com/u/{{notebook.associated_user.username}}/{{notebook.url}}</span>
+    </div>
+  {% endif %}
+{% endblock %}

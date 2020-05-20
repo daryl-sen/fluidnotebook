@@ -1,0 +1,103 @@
+{% extends 'unconfined.html' %}
+
+{% block mainContent %}
+  <h1>Checking '{{ table }}'</h1>
+  <div class="linedBlock">
+    <a href="{{ url_for('admin.index') }}" class="cancel_button">Back to Dashboard</a>
+
+    <table>
+      <tr>
+        {% for heading in table_headings %}
+          <th>{{heading}}</th>
+        {% endfor %}
+      </tr>
+
+      {% if table == "users" %}
+        {% for row in table_contents %}
+          <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.username }}</td>
+            <td>{{ row.email }}</td>
+            <td>{{ row.password[:10] }}</td>
+            <td>{{ row.bio }}</td>
+            <td>{{ row.pic }}</td>
+            <td>{{ row.role }}</td>
+            <td>{{ row.active_desk }}</td>
+            <td><a href="{{ url_for('admin.delete_row', model_name = 'users', id = row.id)}}">Delete</a></td>
+          </tr>
+        {% endfor %}
+        <p>Pseudo-Columns: 'notebooks', 'desks'</p>
+      {% elif table == "desks" %}
+        {% for row in table_contents %}
+          <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.deskname }}</td>
+            <td>{{ row.desc }}</td>
+            <td>{{ row.owner }}</td>
+            <td><a href="{{ url_for('admin.delete_row', model_name = 'desks', id = row.id)}}">Delete</a></td>
+          </tr>
+        {% endfor %}
+        <p>Pseudo-Columns: 'notebooks', 'associated_owner'</p>
+      {% elif table == "notebooks" %}
+        {% for row in table_contents %}
+          <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.owner }}</td>
+            <td>{{ row.title }}</td>
+            <td>{{ row.desc }}</td>
+            <td>{{ row.creation_date }}</td>
+            <td>{{ row.last_update }}</td>
+            <td>{{ row.visibility[:2] }}</td>
+            <td>{{ row.access_code }}</td>
+            <td>{{ row.url }}</td>
+            <td>{{ row.cover_img[:10] }}</td>
+            <td><a href="{{ url_for('admin.delete_row', model_name = 'notebooks', id = row.id)}}">Delete</a></td>
+          </tr>
+        {% endfor %}
+        <p>Pseudo-Columns: 'associated_desks', 'associated_owner'</p>
+      {% elif table == "pages" %}
+        {% for row in table_contents %}
+          <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.prior }}</td>
+            <td>{{ row.next }}</td>
+            <td>{{ row.heading }}</td>
+            <td>{{ row.content[:100] }}...</td>
+            <td>{{ row.last_update }}</td>
+            <td>{{ row.notebook }}</td>
+            <td>{{ row.author }}</td>
+            <td><a href="{{ url_for('admin.delete_row', model_name = 'pages', id = row.id)}}">Delete</a></td>
+          </tr>
+        {% endfor %}
+        <p>Pseudo-Columns: 'notebooks', 'desks'</p>
+      {% elif table == "preferences" %}
+        {% for row in table_contents %}
+          <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.timezone }}</td>
+            <td>{{ row.night_time_on }}</td>
+            <td>{{ row.night_time_off }}</td>
+            <td>{{ row.night_mode_type }}</td>
+            <td>{{ row.font_size }}</td>
+            <td>{{ row.coding_addon }}</td>
+            <td>{{ row.hyperlinks_addon }}</td>
+            <td>{{ row.colors_addon }}</td>
+            <td>{{ row.user_id }}</td>
+            <td><a href="{{ url_for('admin.delete_row', model_name = 'preferences', id = row.id)}}">Delete</a></td>
+          </tr>
+        {% endfor %}
+        <p>Hello</p>
+      {% elif table == "relational" %}
+        {% for row in table_contents %}
+          <tr>
+            <td>{{row.desk_id}}</td>
+            <td>{{row.notebook_id}}</td>
+          </tr>
+        {% endfor %}
+        <p>Entries in this table deleted automatically.</p>
+      {% endif %}
+
+    </table>
+  </div>
+
+{% endblock %}

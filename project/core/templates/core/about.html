@@ -1,0 +1,20 @@
+{% extends 'unconfined.html' %}
+
+{% block mainContent %}
+  <section class="confined-1000">
+    <h1>Learn More About Fluid Notebook</h1>
+    <p>You can find out more about Fluid Notebook by checking out one of the following notebooks!</p>
+  </section>
+
+  <section class="centered">
+    {% for notebook in info_notebooks %}
+      <a href="{{ url_for('pages.show', notebook_id = notebook.id)}}"><div class="notebook_thumbnail" style="background-image: url({{notebook.cover_img}});">
+        <div class="notebook_desc">
+          {{ notebook.title }}
+          <div class="notebook_author">by {{ notebook.associated_user.username }}</div>
+        </div>
+      </div></a>
+    {% endfor %}
+  </section>
+
+{% endblock %}

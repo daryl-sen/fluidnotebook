@@ -1,0 +1,127 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+  <h1>Fluid Notebook Settings</h1>
+  {% if current_user.is_authenticated %}
+    <p>The following settings are specific to this device. These will override any <a href="{{ url_for('users.preferences') }}">account preferences</a> you have.</p>
+  {% else %}
+    <p>Welcome to Fluid Notebook. The following are some settings you can choose to optimize your viewing experience. You do not need an account, and these settings will only apply to this current device.</p>
+    <p>Do consider <a href="{{ url_for('users.register') }}">signing up</a> to create your own notebooks and get access to many more settings and features!</p>
+  {% endif %}
+
+  {% if session['daynight_pref'] %}
+    {% if session['daynight_pref'] == "DAY" %}
+      {% set day_marker = " checked = checked" %}
+      {% set night_marker = "" %}
+      {% set default_marker = "" %}
+    {% else %}
+      {% set day_marker = "" %}
+      {% set night_marker = " checked = checked" %}
+      {% set default_marker = "" %}
+    {% endif %}
+  {% else %}
+    {% set day_marker = "" %}
+    {% set night_marker = "" %}
+    {% set default_marker = " checked = checked" %}
+  {% endif %}
+
+  {% if session['keywords_pref'] %}
+    {% if session['keywords_pref'] == "ON" %}
+      {% set keywords_on_marker = " checked = checked" %}
+      {% set keywords_off_marker = "" %}
+    {% else %}
+      {% set keywords_on_marker = "" %}
+      {% set keywords_off_marker = " checked = checked" %}
+    {% endif %}
+  {% else %}
+    {% set keywords_on_marker = " checked = checked" %}
+    {% set keywords_off_marker = "" %}
+  {% endif %}
+
+  {% if session['editor_pref'] %}
+    {% if session['editor_pref'] == "snow" %}
+      {% set editor_snow_marker = " checked = checked" %}
+      {% set editor_bubble_marker = "" %}
+    {% else %}
+      {% set editor_snow_marker = "" %}
+      {% set editor_bubble_marker = " checked = checked" %}
+    {% endif %}
+  {% else %}
+    {% set editor_snow_marker = " checked = checked" %}
+    {% set editor_bubble_marker = "" %}
+  {% endif %}
+  {% if request.headers.get('Referer') != None and request.headers.get('Referer') != url_for(request.url_rule.endpoint, _external = True) %}
+      <a href="{{ request.headers.get('Referer') }}" class="cancel_button">Back</a>
+  {% endif %}
+
+    <form action="{{ url_for('users.device_settings') }}" method="post">
+
+      {% if session['daynight_pref'] or session['font_size_pref'] or session['keywords_pref'] %}
+      <div class="notification">
+        <p>Device-specific settings are on for this device. This overrides your account preferences, please clear these settings to conform to your account preferences. <a href="{{ url_for('users.device_settings', clear='session')}}">Clear settings</a>.</p>
+      </div>
+      {% endif %}
+
+      <div class="linedBlock">
+        <h4>Night Mode</h4>
+        <p>If you're using Fluid Notebook under dim lighting conditions, you can turn on Night Mode to switch to a darker color scheme.</p>
+        <input type="radio" name="daynight_pref" id="daynight_day" value="DAY"{{day_marker}}>
+        <label for="daynight_day">Night Mode OFF</label>
+        <br>
+        <input type="radio" name="daynight_pref" id="daynight_night" value="NIGHT"{{night_marker}}>
+        <label for="daynight_night">Night Mode ON</label>
+        <br>
+        <input type="radio" name="daynight_pref" id="daynight_auto" value="AUTO"{{default_marker}}>
+        <label for="daynight_auto">Night Mode Auto</label>
+      </div>
+
+      <div class="linedBlock">
+        <h4>Font Size</h4>
+        <label for="font_size_pref">Font Size</label>
+        <select name="font_size_pref">
+          {% if session['font_size_pref'] %}
+            <option value="{{ session['font_size_pref'] }}">Current ({{ session['font_size_pref'] }}px)</option>
+          {% else %}
+            <option value="AUTO">Auto: Medium</option>
+          {% endif %}
+          <option value="12">Extra Small (12px)</option>
+          <option value="15">Small (15px)</option>
+          <option value="18">Medium (18px)</option>
+          <option value="21">Large (21px)</option>
+          <option value="24">Extra Large (24px)</option>
+        </select>
+      </div>
+
+      <div class="linedBlock">
+        <h4>Keywords</h4>
+        <p>Keywords is a feature that allows you to quickly conceal underlined words in a notebook. This helps with memorization by creating a fill-in-the-blanks quiz on the fly.</p>
+        <p>If you prefer to turn this feature off, you can do it here.</p>
+        <input type="radio" name="keywords_pref" id="keywords_on" value="ON"{{keywords_on_marker}}>
+        <label for="keywords_on">Keywords ON</label>
+        <br>
+        <input type="radio" name="keywords_pref" id="keywords_off" value="OFF"{{keywords_off_marker}}>
+        <label for="keywords_off">Keywords OFF</label>
+      </div>
+
+      {% if current_user.is_authenticated %}
+        <div class="linedBlock">
+          <h4>Editor Style</h4>
+          <p>Fluid Notebook uses Quill, which comes with two styles for rich-text editing. By default, the "Snow" style is used, where the controls are at the top of the editting box. The "Bubble" style features an extremely minimialistic interface, with controls showing up only after you highlight some text.</p>
+          <p>"Bubble" might be better if you often create very long pages, which forces you to scroll back up to access the controls. Since controls appear right below highlighted text in "Bubble", it follows you throughout the page.</p>
+          <input type="radio" name="editor_pref" id="editor_snow" value="snow"{{editor_snow_marker}}>
+          <label for="editor_snow">Snow Style</label>
+          <br>
+          <input type="radio" name="editor_pref" id="editor_bubble" value="bubble"{{editor_bubble_marker}}>
+          <label for="editor_bubble">Bubble Style</label>
+        </div>
+      {% endif %}
+
+      <input type="hidden" name="modified_settings" value="True">
+      <input type="submit" value="Apply Settings" class="redButton">
+    </form>
+    {% if request.headers.get('Referer') != None and request.headers.get('Referer') != url_for(request.url_rule.endpoint, _external = True) %}
+      <a href="{{ request.headers.get('Referer') }}" class="cancel_button">Back</a>
+    {% else %}
+      <a href="{{ url_for('users.settings') }}" class="cancel_button">Back to Settings</a>
+    {% endif %}
+{% endblock %}

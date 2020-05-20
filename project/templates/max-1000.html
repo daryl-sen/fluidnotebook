@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block templateAddon %}
+  {% for message in get_flashed_messages() %}
+  <section class="confined-1000" id='message{{loop.index}}' style="display: block; margin-bottom: 1rem;">
+    <div class='notification' onClick = "toggleElement('message{{loop.index}}')">
+      {{ message }}
+    </div>
+  </section>
+  {% endfor %}
+
+  <section class="confined-1000">
+    {% block mainContent %}
+    {% endblock %}
+  </section>
+{% endblock %}

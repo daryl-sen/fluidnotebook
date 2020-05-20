@@ -1,0 +1,30 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+  <h1>Account Settings ({{current_user.username}})</h1>
+
+  <div class="comparison-2">
+    <div class="comp-1 simple">
+      <h2>Account Preferences</h2>
+      <p>Customize the way Fluid Notebook works for you, including features like automatic night mode, font size, and additional features.</p>
+      <a class="naviLink" href="{{ url_for('users.preferences') }}">Go to Preferences</a>
+    </div>
+    <div class="comp-2 simple">
+      <h2>Device-Specific Settings</h2>
+      <p>You might have different preferences for different devices. These settings will override your account preferences.</p>
+      <a class="naviLink" href="{{ url_for('users.device_settings') }}">Go to Device Settings</a>
+    </div>
+  </div>
+  <div class="comparison-2">
+    <div class="comp-1 simple">
+      <h2>My Profile</h2>
+      <p>Make changes to your profile page, and review your contact info. Any personal info you provided will be stored here.</p>
+      <a class="naviLink" href="{{ url_for('users.change_info') }}">Edit My Profile</a>
+    </div>
+    <div class="comp-2 simple">
+      <h2>Change Password</h2>
+      <p>You can change your password here. Please do not use the same password across different websites!</p>
+      <a class="naviLink" href="{{ url_for('users.change_password') }}">Change Password</a>
+    </div>
+  </div>
+{% endblock %}

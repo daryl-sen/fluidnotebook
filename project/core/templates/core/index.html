@@ -1,0 +1,76 @@
+{% extends 'unconfined.html' %}
+
+{% block mainContent %}
+
+<section id="custom-grid1">
+        <div id="grid-main">
+        </div>
+        <div id="grid-side1">
+          <h2>Fluid Notebooks</h2>
+          <p>Fluids take on the shape of its container. Your notes should too! Write your notes once and view them anywhere, no downloads required!</p>
+        </div>
+        <div id="grid-side2">
+          <h2>No need to zoom in</h2>
+          <p>Fluid documents are optimized for viewing on any screen size, no more zooming in and out to find your bearings</p>
+        </div>
+        <div id="grid-side3">
+          <h2>Automatic Night Mode</h2>
+          <p>Admit it, we all thought about studying in bed. Automatic night mode changes your notes to a color scheme suited for low light conditions</p>
+        </div>
+        <div id="grid-side4">
+          <h2>Forgot your USB stick? Forget about it</h2>
+          <p>No need for USB sticks or Cloud Drives. Just log in to Fluid Notebook and your notes will be waiting for you</p>
+        </div>
+</section>
+
+
+<section class="centered confined-1000 highlightBlock">
+  <h2>Search Notebooks</h2>
+  <form method="get" action="{{ url_for('core.search') }}">
+    <input type="text" name="query" value="" list="recent_50" placeholder="Enter Notebook Title">
+    <datalist id="recent_50">
+      {% for notebook in recent_notebooks %}
+      <option value="{{ notebook.title }}" />
+      {% endfor %}
+    </datalist>
+    <input type="submit" value="Search" class="blueButton">
+  </form>
+</section>
+
+
+<section class="centered">
+  <h2>Featured Notebooks</h2>
+
+  {% for notebook in featured_notebooks %}
+    <a href="{{ url_for('pages.show', notebook_id = notebook.id)}}"><div class="notebook_thumbnail" style="background-image: url({{notebook.cover_img}});">
+      <div class="notebook_desc">
+        {{ notebook.title }}
+        <div class="notebook_author">by {{ notebook.associated_user.username }}</div>
+      </div>
+    </div></a>
+  {% endfor %}
+
+</section>
+
+{#
+<!-- <section style="text-align: center;">
+  <h2>Recently Added</h2>
+  {% for notebook in recent_notebooks %}
+    <a href="/notebooks/{{notebook.url}}"><div class="notebook_thumbnail" style="background-image: url({{notebook.cover_img}});">
+      <div class="notebook_desc">
+        {{ notebook.title }}
+      </div>
+    </div></a>
+  {% endfor %}
+</section> -->
+#}
+
+<section class="confined-1000">
+  <div class="warning">
+    <p>
+      This website is currently under development, this is an open beta test. All features are subject to change, and any data stored in the database may be deleted or moved at any time. <b>The author of this website does not take responsibility for any data loss or any other forms of damage that may be incurred from using this website.</b>
+    </p>
+    <p>USE AT YOUR OWN RISK.</p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'with-sidebar.html' %}
+
+
+
+{% block mainContent %}
+<h1>Page not found</h1>
+<img src="/static/images/404.png" alt="">
+<h2>I tried and tried and tried...</h2>
+<p>But I couldn't find the page you're looking for :(</p>
+<p>At least the 404 error page is working though. Kudos!</p>
+{% endblock %}
+
+{% block sidebar %}
+<div class="sidebarBlock">
+  <h3>Navigation</h3>
+  <a href="/" class="naviLink">Homepage</a>
+  <a href="/info" class="naviLink">Info</a>
+  <a href="/desks" class="naviLink">My Desk</a>
+</div>
+{% endblock %}

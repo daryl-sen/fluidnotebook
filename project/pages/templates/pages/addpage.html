@@ -1,0 +1,64 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+  <h2>Adding New Page</h2>
+  <div class="linedBlock">
+    <h3>Notebook: {{ notebook.title }}</h3>
+    <form method="post" autocomplete="off">
+      {{ form.hidden_tag() }}
+      {{ form.heading.label }}{{ form.heading() }}
+      {{ form.content.label }}{{ form.content() }}
+      <div id="quillEditor"></div>
+      {{ form.submit(class_="redButton") }}
+
+      {% if request.headers.get('Referer') != None %}
+        <a href="{{ request.headers.get('Referer') }}" class="cancel_button">Cancel</a>
+      {% else %}
+        <a href="{{ url_for('pages.show', notebook_id = notebook.id)}}" class="cancel_button">Return to Overview</a>
+      {% endif %}
+    </form>
+    <script src="{{ url_for('static', filename='js/quill.js') }}?v={{version}}"></script>
+    <script type="text/javascript">
+      var toolbarOptions = [
+        ['bold', 'italic', 'underline'],
+        [{ 'header': [2, 3, 4, 5, false] }],
+        {% if current_user.preferences.coding_addon == 1 %}
+        ['code', 'code-block'],
+        {% endif %}
+        {% if current_user.preferences.coding_addon == 1 %}
+        ['link'],
+        {% endif %}
+        // [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        ['clean'],
+      ];
+
+      var quill = new Quill('#quillEditor', {
+        modules: {
+          toolbar: toolbarOptions
+        },
+        {% if session['editor_pref'] %}
+        theme: "{{session['editor_pref']}}", // device settings
+        {% else %}
+        theme: 'snow', // default settings
+        {% endif %}
+        scrollingContainer: 'body'
+      });
+
+      // quill.root.innerHTML = document.querySelector('input[name=content]').value;
+      var form = document.querySelector('form');
+      form.onsubmit = function() {
+        // Populate hidden form on submit
+        var about = document.querySelector('input[name=content]');
+        var editorContent = quill.root.innerHTML;
+        about.value = editorContent;
+      };
+
+      document.querySelectorAll(".ql-picker").forEach(tool => {
+      tool.addEventListener("mousedown", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+      });
+    });
+    </script>
+  </div>
+{% endblock %}

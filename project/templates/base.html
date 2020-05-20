@@ -1,0 +1,115 @@
+{% set version = "1.8.3B" %}
+<!DOCTYPE html>
+{% if current_user.is_authenticated %}
+{% set css_file = current_user.preferences.night_mode_type %}
+{% else %}
+{% set css_file = "dark" %}
+{% endif %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Fluid Notebook {% if webtitle %} - {{webtitle}}{% endif %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/fav.ico') }}">
+    <style>
+      body {
+        {% if session['font_size_pref'] %}
+          font-size: {{ session['font_size_pref'] }}px; /* device-specific */
+        {% else %}
+          {% if current_user.is_authenticated %}
+            font-size: {{ current_user.preferences.font_size }}px; /* account settings */
+          {% else %}
+            font-size: 18px; /* default */
+          {% endif %}
+        {% endif %}
+      }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fluid-constant.css') }}?v={{version}}">
+    {% if daynight == "NIGHT" %}
+      <link rel="stylesheet" href="/static/css/fluid-{{css_file}}.css?v={{version}}">
+    {% else %}
+      <link rel="stylesheet" href="/static/css/fluid-day.css?v={{version}}">
+    {% endif %}
+
+    {% if session['editor_pref'] %}
+      <link rel="stylesheet" href="/static/css/quill-{{session['editor_pref']}}.css?v={{version}}">
+    {% else %}
+      <link rel="stylesheet" href="/static/css/quill-snow.css?v={{version}}">
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/toggles.js') }}?v={{version}}"></script>
+    {% if session['keywords_pref'] %}
+      {% if session['keywords_pref'] == "OFF" %}
+      {% else %}
+        <script type="text/javascript">
+          var keymap = {};
+          onkeydown = onkeyup = function(e){
+              e = e || event; // to deal with IE
+              keymap[e.keyCode] = e.type == 'keydown';
+              if ((keymap[75]))
+              {
+                  document.getElementById("toggleKeywordsButton").click();
+              }
+          }
+        </script>
+      {% endif %}
+    {% else %}
+      <script type="text/javascript">
+        var keymap = {};
+        onkeydown = onkeyup = function(e){
+            e = e || event; // to deal with IE
+            keymap[e.keyCode] = e.type == 'keydown';
+            if ((keymap[75]))
+            {
+                document.getElementById("toggleKeywordsButton").click();
+            }
+        }
+      </script>
+    {% endif %}
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  </head>
+  <body>
+    <header>
+      <a href="/" id="webTitle_link"><div id="webTitle">
+        Fluid
+      </div></a>
+      <nav id="horizontal">
+        <a href="{{ url_for('desks.index') }}">Desk</a>
+        <a href="{{ url_for('core.info') }}">Info</a>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('users.settings') }}">Account</a>
+        <a href="{{ url_for('users.logout') }}">Logout</a>
+        {% else %}
+        <a href="{{ url_for('users.device_settings') }}">Settings</a>
+        <a href="{{ url_for('users.login') }}">Login</a>
+        {% endif %}
+      </nav>
+      <button id="floatingMenuButton" onClick="toggleMenu()">&#9776;</button>
+      <div id="curtain" style="display: none;" onClick="toggleMenu()"></div>
+      <nav id="mobile" style="width: 0;">
+        <div id="mobileNavContainer">
+          <a href="{{ url_for('desks.index') }}">Desk</a>
+          <a href="{{ url_for('core.info') }}">Info</a>
+          {% if current_user.is_authenticated %}
+          <a href="{{ url_for('users.settings') }}">Account</a>
+          <a href="{{ url_for('users.logout') }}">Logout</a>
+          {% else %}
+          <a href="{{ url_for('users.device_settings') }}">Settings</a>
+          <a href="{{ url_for('users.login') }}">Login</a>
+          {% endif %}
+          <a id="closeMenu" onClick="toggleMenu()">Close</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      {% block templateAddon %}
+      {% endblock %}
+    </main>
+    <footer>
+      <div id="footnotes">
+        &copy; copyright Sen Tang, 2020 <br>
+        version {{version}} <br>
+        <a href="{{ url_for('users.report') }}" target="_blank">Report Error</a>
+      </div>
+    </footer>
+  </body>
+</html>

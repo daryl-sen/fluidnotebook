@@ -1,0 +1,29 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+
+<h1>Search</h1>
+  <form method="get" action="{{ url_for('core.search') }}" class="highlightBlock">
+    <h2>Search Notebook Titles</h2>
+    <input type="text" name="query" value="{{ request.args.get('query')}}" list="recent_50" placeholder="Enter Notebook Title">
+    <datalist id="recent_50">
+      {% for notebook in recent_notebooks %}
+      <option value="{{ notebook.title }}" />
+      {% endfor %}
+    </datalist>
+    <input type="submit" value="Search" class="blueButton">
+  </form>
+
+  <h2>Search Results</h2>
+    {% if search_results == 0 %}
+      <p>Sorry, your search did not return any results.</p>
+    {% else %}
+      {% for notebook in search_results %}
+      <div class="linedBlock">
+        <h3><a href="{{ url_for('pages.show', notebook_id = notebook.id) }}">{{ notebook.title }}</a></h3>
+        <p class="notebook_author">by <a href="{{ url_for('notebooks.profile', username = notebook.associated_user.username) }}">{{ notebook.associated_user.username }}</a></p>
+        <p>{{ notebook.desc }}</p>
+      </div>
+      {% endfor %}
+    {% endif %}
+{% endblock %}

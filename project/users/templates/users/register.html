@@ -1,0 +1,18 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+<h1>Register</h1>
+<div class="highlightBlock">
+   <p>Please note that Fluid Notebook is currently in beta, this means that some features may be unstable. Use at your own risk!</p>
+   <form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.email.label }}{{ form.email() }}
+    {{ form.username.label }}{{ form.username }}
+    {{ form.password.label }}{{ form.password() }}
+    {{ form.password_cfm.label }}{{ form.password_cfm }}
+    <p>By clicking on the "Register" button below, you accept all <a href="https://www.fluidnotebook.com/nb/2?p=NA%3D%3D">terms of use</a> and the <a href="https://www.fluidnotebook.com/nb/2?p=NDg%3D">privacy policy</a>, which are subject to change. You also declare that you are above 13 years of age.</p>
+    {{ form.submit(class_="redButton") }}
+  </form>
+</div>
+<p>Have an account? <a href="{{url_for('users.login')}}">Log in here</a>.</p>
+{% endblock %}

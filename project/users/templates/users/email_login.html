@@ -1,0 +1,29 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+<h1>Log In With Email</h1>
+<p>If you've forgotten your username, you can log in with your email address. After logging in, please go to your account settings to see your username.</p>
+<div class="highlightBlock">
+  <form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.email.label }}{{ form.email() }}
+    {{ form.password.label }}{{ form.password() }}
+    {{ form.submit(class_="redButton") }}
+  </form>
+  <div class="comparison-3 centered">
+    <div class="comp1 plain">
+      Forgot Password?
+      <a href="{{url_for('users.forgot_password')}}" class="naviLink">Reset Password</a>
+    </div>
+    <div class="comp2 plain">
+      Forgot Email Address?
+      <a href="{{url_for('users.login')}}" class="naviLink">Login with Username</a>
+    </div>
+    <div class="comp3 plain">
+      No Account?
+      <a href="{{url_for('users.register')}}" class="naviLink">Sign Up</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

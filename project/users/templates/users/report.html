@@ -1,0 +1,20 @@
+{% extends 'max-1000.html' %}
+
+{% block mainContent %}
+  <h1>Sending a Report</h1>
+  <p>Please help improve Fluid Notebook by sending in reports of issues/errors on the website, and report any public notebooks that contains content that violates the rules.</p>
+  <p>DMCA Takedown Requests: Fluid Notebook contains user-generated content. If you found that a notebook contains content that violates your copyright, and your claim will be assessed as soon as possible.</p>
+  <div class="linedBlock">
+    <form method="post">
+      {{ form.hidden_tag() }}
+      {{ form.type.label }}{{ form.type() }}
+      {{ form.title.label }}{{ form.title() }}
+      {{ form.url.label }}{{ form.url() }}
+      {{ form.content.label }}{{ form.content() }}
+      {{ form.submit(class_="redButton") }}
+    </form>
+    {% if request.headers.get('Referer') != None and request.headers.get('Referer') != url_for(request.url_rule.endpoint, _external = True) %}
+      <a href="{{ request.headers.get('Referer') }}" class="cancel_button">Cancel and Go Back</a>
+    {% endif %}
+  </div>
+{% endblock %}
