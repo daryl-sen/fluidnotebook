@@ -45,3 +45,5 @@ User account password reset
 
 ## Deprecated
 Fluidnotebook was one of my first public-facing projects, but it has now been deprecated and its features integrated into other projects. I learned a lot from its planning, programming, deployment, and maintenance.
+
+Fluidnotebook was hosted on www.fluidnotebook.com while it was active.
