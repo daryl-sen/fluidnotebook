@@ -1,5 +1,7 @@
 # Fluidnotebook
 
+IMPORTANT UPDATE: This project has been deprecated. The domain has been repurposed for a private project.
+
 Fluid Notebook is an online notebook that's built to adapt to any device size and time of day.
 
 ![Homepage](https://github.com/daryl-sen/fluidnotebook/blob/master/demoImages/desktop.png?raw=true)
